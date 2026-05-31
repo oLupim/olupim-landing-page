@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>oLupim — Marketing de Conteúdo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --purple: #9B30FF;
+    --purple-glow: #7B2FE0;
+    --purple-muted: rgba(155, 48, 255, 0.12);
+    --white: #f5f5f5;
+    --gray: #888;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--purple);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: normal;
+  }
+
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 48px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--purple); }
+  .nav-cta {
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    padding: 10px 26px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: none;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: #8020e8; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 85% 20%, rgba(155,48,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(155,48,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-headline .accent { color: var(--purple); }
+  .hero-headline .outline {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.25);
+    color: transparent;
+  }
+  .hero-sub {
+    max-width: 520px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(245,245,245,0.6);
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--purple);
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 36px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: none;
+  }
+  .btn-primary:hover {
+    background: #8020e8;
+    box-shadow: 0 20px 60px rgba(155,48,255,0.35);
+  }
+  .btn-secondary {
+    color: rgba(245,245,245,0.55);
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(245,245,245,0.2);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    cursor: none;
+  }
+  .btn-secondary:hover { color: var(--white); border-color: var(--white); }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeIn 1s 1.4s forwards;
+  }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: var(--purple);
+    animation: expandLine 1.5s 1.6s ease forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  @keyframes expandLine { to { transform: scaleX(1); } }
+  .scroll-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* STATS BAR */
+  .stats {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stat {
+    padding: 40px 48px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--purple);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--gray);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+
+  /* SECTION SHARED */
+  section { padding: 100px 48px; }
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--purple);
+    opacity: 0.5;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    margin-bottom: 64px;
+  }
+
+  /* WHY SECTION */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+  }
+  .why-card {
+    background: var(--dark);
+    padding: 52px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .why-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--purple);
+    transition: height 0.4s ease;
+  }
+  .why-card:hover::before { height: 100%; }
+  .why-card:hover { background: #161616; }
+  .why-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 1;
+    color: rgba(155,48,255,0.1);
+    position: absolute;
+    top: 20px; right: 30px;
+    transition: color 0.3s;
+  }
+  .why-card:hover .why-num { color: rgba(155,48,255,0.2); }
+  .why-icon { font-size: 1.8rem; margin-bottom: 20px; }
+  .why-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .why-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(245,245,245,0.5);
+    font-weight: 300;
+  }
+
+  /* SERVICES */
+  .services-section { background: var(--dark); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+  .service-card {
+    background: var(--black);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: none;
+  }
+  .service-card:hover { background: #111; }
+  .service-card.featured {
+    background: var(--purple);
+    grid-column: span 1;
+  }
+  .service-card.featured:hover { background: #8020e8; }
+  .service-card.featured .service-price { color: #fff; }
+  .service-card.featured .service-name { color: #fff; }
+  .service-card.featured .service-desc { color: rgba(255,255,255,0.75); }
+  .service-card.featured .service-includes li { color: rgba(255,255,255,0.7); }
+  .service-card.featured .service-includes li::before { background: #fff; }
+  .service-badge {
+    display: inline-block;
+    background: rgba(0,0,0,0.25);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-bottom: 24px;
+  }
+  .service-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+  .service-price .currency {
+    font-size: 1.4rem;
+    vertical-align: top;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .service-price .off-tag {
+    display: inline-block;
+    background: #ff4500;
+    color: #fff;
+    font-size: 0.7rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    padding: 3px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.06em;
+  }
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+  .service-desc {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--gray);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+  .service-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-includes li {
+    font-size: 0.8rem;
+    color: rgba(245,245,245,0.45);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-includes li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--purple);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .service-card.featured .service-includes li::before { background: rgba(255,255,255,0.6); }
+
+  /* HOW IT WORKS */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--purple), transparent);
+    opacity: 0.3;
+  }
+  .step {
+    padding: 0 32px 0 0;
+    position: relative;
+  }
+  .step-dot {
+    width: 56px; height: 56px;
+    border: 1.5px solid var(--purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--purple);
+    margin-bottom: 28px;
+    background: var(--black);
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, color 0.3s;
+  }
+  .step:hover .step-dot {
+    background: var(--purple);
+    color: #fff;
+  }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+  .step-text {
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  /* PORTFOLIO / NETFLIX STYLE */
+.portfolio-section {
+  background: var(--dark);
+  overflow: hidden;
+}
+
+.portfolio-netflix {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.portfolio-netflix::before,
+.portfolio-netflix::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.portfolio-netflix::before {
+  left: 0;
+  background: linear-gradient(to right, var(--dark), transparent);
+}
+
+.portfolio-netflix::after {
+  right: 0;
+  background: linear-gradient(to left, var(--dark), transparent);
+}
+
+.portfolio-track {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  animation: portfolioScroll 28s linear infinite;
+}
+
+.portfolio-track:hover {
+  animation-play-state: paused;
+}
+
+.portfolio-card {
+  width: 404px;
+  height: 316px;
+  flex: 0 0 404px;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--white);
+  border: 1px solid var(--border);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.portfolio-card:hover {
+  transform: scale(1.06);
+  z-index: 5;
+  box-shadow: 0 24px 70px rgba(155,48,255,0.25);
+}
+
+.portfolio-card iframe {
+  width: 404px;
+  height: 316px;
+  display: block;
+}
+
+.portfolio-mock {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.portfolio-card-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 24px;
+  background: linear-gradient(to top, rgba(0,0,0,0.92), transparent);
+}
+
+.portfolio-card-info span {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+
+.portfolio-card-info strong {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  color: var(--white);
+}
+
+@keyframes portfolioScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 900px) {
+  .portfolio-card,
+  .portfolio-card iframe {
+    width: 320px;
+    height: 250px;
+  }
+
+  .portfolio-card {
+    flex-basis: 320px;
+  }
+
+  .portfolio-track {
+    animation-duration: 22s;
+  }
+}
+.portfolio-note {
+  font-size: 0.85rem;
+  color: var(--gray);
+  font-weight: 300;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+  /* PAYMENT */
+  .payment-section {
+    border-top: 1px solid var(--border);
+  }
+  .payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    margin-top: 48px;
+  }
+  .payment-card {
+    background: var(--dark);
+    padding: 48px 44px;
+  }
+  .payment-card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .payment-card-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(245,245,245,0.55);
+    font-weight: 300;
+  }
+  .pix-box {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.85rem;
+    color: var(--purple);
+    letter-spacing: 0.04em;
+  }
+
+  /* CTA FINAL */
+  .cta-final {
+    background: var(--purple);
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: 'LUPIM';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22vw;
+    color: rgba(255,255,255,0.04);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.1em;
+  }
+  .cta-final-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .cta-final-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    margin-bottom: 32px;
+  }
+  .cta-final-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    color: var(--purple);
+    text-decoration: none;
+    padding: 18px 44px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: none;
+  }
+  .btn-white:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 36px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+  }
+  .footer-logo span { color: var(--purple); }
+  .footer-credit {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.2);
+    font-weight: 300;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* REVEAL ON SCROLL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .hero { padding: 110px 24px 80px; }
+    section { padding: 70px 24px; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 24px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 40px 20px; }
+    .process-steps::before { display: none; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .portfolio-item { grid-column: span 1 !important; grid-row: span 1 !important; }
+    .payment-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .cta-final { padding: 70px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">oLupim</div>
+  <a href="#contato" class="nav-cta">Solicitar Orçamento</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">Marketing & Audiovisual Profissional</p>
+  <h1 class="hero-headline">
+    Sua marca<br>
+    <span class="accent">merece</span><br>
+    <span class="outline">ser vista.</span>
+  </h1>
+  <p class="hero-sub">
+    Conteúdo que <strong>vende, posiciona e grava na memória.</strong><br>
+    Do roteiro à edição — estratégia pensada para o seu público, não só para parecer bonito.
+  </p>
+  <div class="hero-actions">
+    <a href="#servicos" class="btn-primary">
+      Ver Serviços
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#portfolio" class="btn-secondary">Ver Trabalhos</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Role para baixo</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats reveal">
+  <div class="stat">
+    <span class="stat-num">100%</span>
+    <span class="stat-label">Focado em resultado e posicionamento de marca</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">4</span>
+    <span class="stat-label">Etapas: briefing, estratégia, captação e edição</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">R$30</span>
+    <span class="stat-label">Ponto de entrada — fotografia avulsa profissional</span>
+  </div>
+</div>
+
+<!-- WHY -->
+<section>
+  <p class="section-label reveal">Por que conteúdo visual importa</p>
+  <h2 class="section-title reveal">Sem visibilidade,<br>ninguém compra de você.</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <span class="why-num">01</span>
+      <div class="why-icon">🎯</div>
+      <h3 class="why-title">Imagem ruim = marca fraca</h3>
+      <p class="why-text">Fotos amadoras e vídeos sem edição passam a mensagem errada. O cliente decide em segundos se confia — e a estética é o primeiro filtro.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-num">02</span>
+      <div class="why-icon">📈</div>
+      <h3 class="why-title">Conteúdo que vende, não só que aparece</h3>
+      <p class="why-text">Qualquer pessoa tira foto. O diferencial está na estratégia: saber o que mostrar, para quem e com qual mensagem para gerar desejo e ação.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-num">03</span>
+      <div class="why-icon">⚡</div>
+      <h3 class="why-title">Você ganha tempo, não perde</h3>
+      <p class="why-text">Roteiro e cronograma prontos antes de gravar. Captação organizada, edição rápida. Você foca no seu negócio enquanto o material é produzido.</p>
+    </div>
+    <div class="why-card reveal">
+      <span class="why-num">04</span>
+      <div class="why-icon">🎬</div>
+      <h3 class="why-title">Do rascunho ao publicar com confiança</h3>
+      <p class="why-text">Briefing, estratégia, captação e edição completa. Você recebe os arquivos prontos para publicar, com qualidade profissional e propósito claro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="portfolio">
+  <p class="section-label reveal">Portfólio</p>
+  <h2 class="section-title reveal">Trabalhos em destaque.</h2>
+
+  <div class="portfolio-netflix reveal">
+    <div class="portfolio-track">
+
+      <a href="https://www.behance.net/gallery/243810143/Portifolio-Audiovisual" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/243810143?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Audiovisual</span>
+          <strong>Portfólio Audiovisual</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/243815245/Pr-wedding" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/243815245?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Fotografia</span>
+          <strong>Pré-wedding</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/248480001/Cobertura-de-Evento-Arraia-do-Bulcao" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/248480001?ilo0=1" height="316" width="404"
+          frameborder="0" allowfullscreen></iframe>
+        <div class="portfolio-card-info">
+          <span>Evento</span>
+          <strong>Cobertura de Evento</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/239931937/LM-CUSTOM-Identidade-Visual" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/239931937?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Design</span>
+          <strong>LM Custom</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/234774325/Social-Media-Spa-Nature" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/234774325?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Conteúdo Digital</span>
+          <strong>Social Media Spa Nature</strong>
+        </div>
+      </a>
+
+      <!-- duplicado para animação infinita -->
+      <a href="https://www.behance.net/gallery/243810143/Portifolio-Audiovisual" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/243810143?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Audiovisual</span>
+          <strong>Portfólio Audiovisual</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/243815245/Pr-wedding" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/243815245?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Fotografia</span>
+          <strong>Pré-wedding</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/248480001/Cobertura-de-Evento-Arraia-do-Bulcao" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/248480001?ilo0=1" height="316" width="404"
+          frameborder="0" allowfullscreen></iframe>
+        <div class="portfolio-card-info">
+          <span>Evento</span>
+          <strong>Cobertura de Evento</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/239931937/LM-CUSTOM-Identidade-Visual" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/239931937?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Design</span>
+          <strong>LM Custom</strong>
+        </div>
+      </a>
+
+      <a href="https://www.behance.net/gallery/234774325/Social-Media-Spa-Nature" target="_blank" class="portfolio-card">
+        <iframe src="https://www.behance.net/embed/project/234774325?ilo0=1" height="316" width="404"
+          allowfullscreen lazyload frameborder="0" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="portfolio-card-info">
+          <span>Conteúdo Digital</span>
+          <strong>Social Media Spa Nature</strong>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="portfolio-cta-row reveal">
+    <p class="portfolio-note">Aumente suas vendas com conteúdos profissionais.</p>
+    <a href="#contato" class="btn-primary" style="display:inline-flex;">
+      Quero um trabalho assim
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <p class="section-label reveal">Como funciona</p>
+  <h2 class="section-title reveal">4 etapas.<br>Sem complicação.</h2>
+  <div class="process-steps reveal">
+    <div class="step">
+      <div class="step-dot">01</div>
+      <h3 class="step-title">Briefing & Pesquisa</h3>
+      <p class="step-text">Reunião rápida para entender sua marca, seus objetivos e o que você quer comunicar. Sem suposições.</p>
+    </div>
+    <div class="step">
+      <div class="step-dot">02</div>
+      <h3 class="step-title">Estratégia</h3>
+      <p class="step-text">Análise do mercado e do público. Tom, estilo visual e estrutura definidos antes de gravar qualquer coisa.</p>
+    </div>
+    <div class="step">
+      <div class="step-dot">03</div>
+      <h3 class="step-title">Produção</h3>
+      <p class="step-text">Câmera profissional, luz e microfone adequados. Gravamos no seu espaço ou ao ar livre — com roteiro em mãos.</p>
+    </div>
+    <div class="step">
+      <div class="step-dot">04</div>
+      <h3 class="step-title">Pós-Produção</h3>
+      <p class="step-text">Edição completa: cortes, trilha, cor, legendas. Fotos tratadas. Você recebe o link Drive e publica com confiança.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SERVICES -->
+<section class="services-section" id="servicos">
+  <p class="section-label reveal">Tabela de Serviços</p>
+  <h2 class="section-title reveal">Escolha o que<br>faz sentido pra você.</h2>
+  <div class="services-grid reveal">
+
+    <div class="service-card">
+      <div class="service-price"><span class="currency">R$</span>400</div>
+      <div class="service-name">Captação até 2 horas</div>
+      <p class="service-desc">Ideal para apresentações de produto, depoimentos ou conteúdo rápido. Muito resultado em pouco tempo.</p>
+      <ul class="service-includes">
+        <li>Roteiro + Estratégia</li>
+        <li>Câmera Profissional</li>
+        <li>Edição inclusa</li>
+        <li>Entrega digital (Drive)</li>
+      </ul>
+    </div>
+
+    <div class="service-card featured">
+      <div class="service-badge">✦ Mais Procurado</div>
+      <div class="service-price"><span class="currency">R$</span>720 <span class="off-tag">-10% OFF</span></div>
+      <div class="service-name">Captação até 4 horas</div>
+      <p class="service-desc">Produção completa com mais tempo de cena, mais ângulos, mais material. A escolha de quem quer resultado sólido.</p>
+      <ul class="service-includes">
+        <li>Roteiro + Estratégia</li>
+        <li>Câmera Profissional</li>
+        <li>Edição completa</li>
+        <li>Desconto especial aplicado</li>
+        <li>Entrega digital (Drive)</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-price"><span class="currency">R$</span>500</div>
+      <div class="service-name">Cobertura de Evento (2h)</div>
+      <p class="service-desc">Captura dos momentos que importam + edição profissional. Perfeito para lançamentos, eventos corporativos e festas de marca.</p>
+      <ul class="service-includes">
+        <li>Captação dos melhores momentos</li>
+        <li>Edição Profissional</li>
+        <li>Entrega digital (Drive)</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-price" style="font-size:1.8rem; padding-top:10px; color: var(--purple);">Sob consulta</div>
+      <div class="service-name">Pacote Personalizado</div>
+      <p class="service-desc">Vídeo + Design + Foto em um único pacote montado para o seu volume e necessidade. Solução completa de conteúdo.</p>
+      <ul class="service-includes">
+        <li>Volume sob medida</li>
+        <li>Vídeo + Design + Foto</li>
+        <li>Proposta personalizada</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-price"><span class="currency">R$</span>50</div>
+      <div class="service-name">Design Digital</div>
+      <p class="service-desc">Post, carrossel, arte digital. Photoshop profissional para sua presença nas redes ficar no nível certo.</p>
+      <ul class="service-includes">
+        <li>Arte digital profissional</li>
+        <li>Post / Carrossel / Capa</li>
+        <li>Photoshop</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-price"><span class="currency">R$</span>30</div>
+      <div class="service-name">Fotografia Avulsa</div>
+      <p class="service-desc">Foto profissional com edição inclusa. Perfeito para produto, perfil ou um conteúdo específico que você precisa.</p>
+      <ul class="service-includes">
+        <li>Fotografia profissional</li>
+        <li>Edição de cor, luz e composição</li>
+        <li>Entrega digital</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CTA FINAL -->
+<div id="contato" class="cta-final">
+  <p class="cta-final-tag">Próximo passo</p>
+  <h2 class="cta-final-title">Pronto para sua<br>marca aparecer<br>de verdade?</h2>
+  <p class="cta-final-sub">Manda uma mensagem, conta seu projeto e a gente começa pelo briefing. Simples assim.</p>
+  <a href="https://wa.me/5548991493860?text=Oi%20Gustavo%2C%20vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento!" class="btn-white" target="_blank">
+    Falar agora no WhatsApp
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.18-1.62A11.97 11.97 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.25-1.43l-.37-.22-3.87 1.01 1.04-3.78-.24-.38A9.97 9.97 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.46c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51H7.5c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" fill="currentColor"/></svg>
+  </a>
+</div>
+
+<!-- PAYMENT -->
+<section class="payment-section">
+  <p class="section-label reveal">Condições & Pagamento</p>
+  <h2 class="section-title reveal">Sem burocracia.<br>Começa quando você quiser.</h2>
+  <div class="payment-grid reveal">
+    <div class="payment-card">
+      <p class="payment-card-title">Pagamento</p>
+      <p class="payment-card-text">
+        100% no início da produção — ou 50% após iniciar, conforme o projeto. Transparência em todo o processo.
+      </p>
+      <div class="pix-box">Pix ou Dinheiro</div>
+    </div>
+    <div class="payment-card">
+      <p class="payment-card-title">Prazo de Entrega</p>
+      <p class="payment-card-text">
+        Definido conforme a demanda e complexidade do projeto. Combinamos tudo na reunião de briefing — sem surpresas no meio do caminho.
+        <br><br>
+        Todo o material é entregue em formato digital via link Google Drive. Rápido, organizado e acessível de qualquer lugar.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">oLupim</div>
+  <p class="footer-credit">Gustavo Machado Lupim — Videomaker & Designer</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) *.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover effect on interactive elements
+  document.querySelectorAll('a, button, .service-card, .portfolio-item, .why-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'rgba(155,48,255,0.8)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(155,48,255,0.5)'; });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
